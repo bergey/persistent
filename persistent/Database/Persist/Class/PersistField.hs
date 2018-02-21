@@ -40,6 +40,7 @@ import Text.Blaze.Html.Renderer.Text (renderHtml)
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
 import qualified Data.ByteString.Lazy as L
+import qualified Data.UUID as UUID
 
 import Control.Monad ((<=<))
 
@@ -300,6 +301,14 @@ instance PersistField UTCTime where
             _ -> Left $ fromPersistValueParseError "UTCTime" x
 
     fromPersistValue x = Left $ fromPersistValueError "UTCTime" "time, integer, string, or bytestring" x
+
+instance PersistField UUID.UUID where
+  toPersistValue = PersistDbSpecific . L.toStrict . UUID.toByteString
+  fromPersistValue (PersistDbSpecific t) =
+    case UUID.fromByteString $ L.fromStrict t of
+      Just x  -> Right x
+      Nothing -> Left "Invalid UUID"
+  fromPersistValue _ = Left "Not PersistDBSpecific"
 
 #if MIN_VERSION_base(4,8,0)
 instance PersistField Natural where

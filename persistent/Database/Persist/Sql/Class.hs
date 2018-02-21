@@ -38,6 +38,7 @@ import Data.ByteString (ByteString)
 import Text.Blaze.Html (Html)
 import Data.Bits (bitSizeMaybe)
 import qualified Data.Vector as V
+import qualified Data.UUID as UUID
 
 #if MIN_VERSION_base(4,8,0)
 import Numeric.Natural (Natural)
@@ -264,6 +265,8 @@ instance PersistFieldSql TimeOfDay where
     sqlType _ = SqlTime
 instance PersistFieldSql UTCTime where
     sqlType _ = SqlDayTime
+instance PersistFieldSql UUID.UUID where
+  sqlType _ = SqlOther "uuid"
 #if MIN_VERSION_base(4,8,0)
 instance {-# OVERLAPPABLE #-} PersistFieldSql a => PersistFieldSql [a] where
 #else
