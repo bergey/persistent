@@ -55,7 +55,7 @@ import qualified Data.Attoparsec.Number as AN
 -- @
 --
 -- The @UniqueLocation@ constraint allows any number of
--- 'Inactive' @Location@s to be @current@.  However, there may be
+-- 'Inactive' @Location@s for a given @User@.  However, there may be
 -- at most one @current@ @Location@ per user (i.e., either zero
 -- or one per user).
 --
